@@ -85,7 +85,7 @@
 <script>
 "use strict";
 var flam,sed,density,c,h,k,dustdata,qdata,maxflux;
-var l,path,x=scale.log(),y,dy,svg,p={w:1000,h:600},obsdata=[];
+var l,path,x,y,dy,svg,p={w:1000,h:600},obsdata=[];
 var pos,cursorpos,chx,chy,chisq,E,params={};
 var defaultlimits={x1:0,x2:30,y1:0,y2:5000};
 var plotlimits=Object.assign({},defaultlimits);
@@ -106,6 +106,7 @@ pos=svg.createSVGPoint();
 cursorpos=svg.createSVGPoint();
 chx=svg.getElementById("chx");
 chy=svg.getElementById("chy");
+var x = d3.scale.linear();
 
 // load session
 loadsession();
