@@ -25,7 +25,7 @@
 <table>
 <tr><th>Dust mass (M<sub>&#9737;</sub>)</th><td><input onchange="calculate()" type="number" id="dustmass" min="0" step="0.01"></td></tr>
 <tr><th>Temperature (K)</th><td><input onchange="calculate()" type="number" id="temperature" min="0" step="1"></td></tr>
-<tr><th>Distance (Mpc)</th><td><input onchange="calculate()" type="number" id="distance" min="0" step="0.01"></td></tr>
+<tr><th>Distance (pc)</th><td><input onchange="calculate()" type="number" id="distance" min="0" step="0.01"></td></tr>
 <tr><th>Grain size (&mu;m)</th><td><select onchange="calculate()" id="grainsize">
 <option>1.000E-3</option>
 <option>1.585E-3</option>
@@ -60,7 +60,7 @@
 <line stroke-dasharray="2,2" x1="0" x2="0" y1="0" y2="600" />
 <!--labels-->
 <text x="600" y="640" stroke="none" fill="black" text-anchor="middle">Wavelength (&mu;m)</text>
-<text x="-300" y="-40" stroke="none" fill="black" text-anchor="middle" transform="rotate(-90)">Flux (&mu;Jy)</text>
+<text x="-300" y="-40" stroke="none" fill="black" text-anchor="middle" transform="rotate(-90)">Flux (Jy)</text>
 <!--info-->
 <text font-size="22" x="1000" y="10" text-anchor="end" stroke="none" fill="#555555" id="info"></text>
 <line id="chx" stroke-dasharray="2,2" x1="0" x2="1000" y1="-999" y2="-999" />
@@ -68,7 +68,7 @@
 <text font-size="22" x="10" y="10"  stroke="none" fill="#555555" id="chisq"></text>
 </svg>
 
-<p>Observations (three columns required: wavelength in &mu;m, flux in &mu;Jy, and flux uncertainty in &mu;Jy)</p>
+<p>Observations (three columns required: wavelength in &mu;m, flux in Jy, and flux uncertainty in Jy)</p>
 <textarea id="obsdata" cols="80" rows="15" onkeyup="getobs();plot();">
 3.6	43.8	1.1
 4.5	100.4	1.7
@@ -135,7 +135,7 @@ function calculate() {
   sed=[];
   maxflux=0;
   for (var i=0;i<qdata.length;i++) {
-    flam=(params.dustmass*2.e33*3*qdata[i][1]/(4*density*params.grainsize)*blackbody_nu(qdata[i][0],params.temperature))/((params.distance * 3.086e24)**2) * 1.e33; // 1e4 for /cm to /um, 1e23 for Jy, 1e6 for uJy
+    flam=(params.dustmass*2.e33*3*qdata[i][1]/(4*density*params.grainsize)*blackbody_nu(qdata[i][0],params.temperature))/((params.distance * 3.086e18)**2) * 1.e27; // 1e4 for /cm to /um, 1e23 for Jy, 1e6 for uJy
     maxflux=Math.max(maxflux,flam);
     sed.push({wlen:qdata[i][0],flam:flam});
   }
