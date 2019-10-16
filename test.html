@@ -20,7 +20,7 @@
 
 <div class="content">
 
-<h1>SPEEDYll - SPEctral Energy Distribution Yields</h1>
+<h1>SPEEDY - SPEctral Energy Distribution Yields</h1>
 
 <table>
 <tr><th>Dust mass (M<sub>&#9737;</sub>)</th><td><input onchange="calculate()" type="number" id="dustmass" min="0" step="0.01"></td></tr>
@@ -85,7 +85,7 @@
 <script>
 "use strict";
 var flam,sed,density,c,h,k,dustdata,qdata,maxflux;
-var l,path,x=d3.scale.log(),y,dy,svg,p={w:1000,h:600},obsdata=[];
+var l,path,x=scale.log(),y,dy,svg,p={w:1000,h:600},obsdata=[];
 var pos,cursorpos,chx,chy,chisq,E,params={};
 var defaultlimits={x1:0,x2:30,y1:0,y2:5000};
 var plotlimits=Object.assign({},defaultlimits);
