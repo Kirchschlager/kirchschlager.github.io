@@ -15,6 +15,17 @@
     <script src="external/better-simple-slideshow/demo/js/hammer.min.js"></script>
     <script src="external/better-simple-slideshow/js/better-simple-slideshow.min.js"></script>
 -->
+	
+10 = TEXT
+  10 {
+# Timestamp der letzten Änderung holen
+    data = page : SYS_LASTCHANGED
+# Datumsformat nach ISO 8601: 2001-12-15T08:49:37+02:00
+    date = c
+# Metatag 'Last-Modified' erzeugen
+    wrap = <meta name="Last-Modified" content="|" />
+  }	
+	
 </head>
 
 <body class="light blue smaller freestyle01">
