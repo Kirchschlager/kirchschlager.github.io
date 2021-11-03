@@ -140,7 +140,11 @@ makeBSS('.num2', opts2);
 
 
 <script type="text/javascript">
-document.write("Last update: " + document.lastModified);
+update = new Date(document.lastModified)
+theMonth = update.getMonth() + 1
+theDate = update.getDate()
+theYear = update.getFullYear()
+document.writeln("<I>Last update:" + theMonth + "/" + theDate + "/" + theYear + "</I>")			      
 </script>			  
 			  
 	</p>  
