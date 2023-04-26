@@ -27,29 +27,8 @@
 <tr><th>Dust mass (M<sub>&#9737;</sub>)</th><td><input onchange="calculate()" type="number" id="dustmass" min="0" step="0.01"></td></tr>
 <tr><th>Temperature (K)</th><td><input onchange="calculate()" type="number" id="temperature" min="0" step="1"></td></tr>
 <tr><th>Distance (pc)</th><td><input onchange="calculate()" type="number" id="distance" min="0" step="0.01"></td></tr>
-<tr><th>Grain size (&mu;m)</th><td><select onchange="calculate()" id="grainsize">
-<option>1.000E-3</option>
-<option>1.585E-3</option>
-<option>2.512E-3</option>
-<option>3.981E-3</option>
-<option>6.310E-3</option>
-<option>1.000E-2</option>
-<option>1.585E-2</option>
-<option>2.512E-2</option>
-<option>3.981E-2</option>
-<option>6.310E-2</option>
-<option>1.000E-1</option>
-<option>1.585E-1</option>
-<option>2.512E-1</option>
-<option>3.981E-1</option>
-<option>6.310E-1</option>
-<option>1.000E+0</option>
-<option>1.585E+0</option>
-<option>2.512E+0</option>
-<option>3.981E+0</option>
-<option>6.310E+0</option>
-<option>1.000E+1</option>
-</select></td></tr>
+<tr><th>Grain size (&mu;m)</th><td><input onchange="calculate()" type="number" id="distance" min="1.0E-3" step="0.001"></td></tr>	
+
 <tr><th>Species</th><td><select onchange="calculate()" id="species"><option id="gra">graphite</option><option id="sil">silicates</option></select></td></tr>
 <tr><th>Axes</th><td><input type="radio" name="axes" checked="checked" id="auto" onchange="switchaxes()"><label for="auto">auto</label><input type="radio" name="axes" id="manual" onchange="switchaxes()"><label for="manual">manual</label></td></tr>
 <tr><td></td><td><input onchange="setlimits(event)" disabled class="axin" type="number" value="0" id="x1"><input onchange="setlimits(event)" disabled class="axin" type="number" value="30" id="x2"><input onchange="setlimits(event)" disabled class="axin" type="number" value="0" id="y1"><input onchange="setlimits(event)" disabled class="axin" type="number" value="1000" id="y2"></td></tr>
