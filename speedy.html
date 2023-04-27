@@ -38,7 +38,7 @@
 	
 <tr><th>Species</th><td><select onchange="calculate()" id="species"><option id="gra">graphite</option><option id="sil">silicates</option></select></td></tr>
 <tr><th>Axes</th><td><input type="radio" name="axes" checked="checked" id="auto" onchange="switchaxes()"><label for="auto">auto</label><input type="radio" name="axes" id="manual" onchange="switchaxes()"><label for="manual">manual</label></td></tr>
-<tr><td></td><td><input onchange="setlimits(event)" disabled class="axin" type="number" value="0" id="x1"><input onchange="setlimits(event)" disabled class="axin" type="number" value="30" id="x2"><input onchange="setlimits(event)" disabled class="axin" type="number" value="0" id="y1"><input onchange="setlimits(event)" disabled class="axin" type="number" value="1000" id="y2"></td></tr>
+<tr><td></td><td><input onchange="setlimits(event)" disabled class="axin" type="number" value="0" id="x1"  style="width:15%"><input onchange="setlimits(event)" disabled class="axin" type="number" value="30" id="x2"  style="width:15%"><input onchange="setlimits(event)" disabled class="axin" type="number" value="0" id="y1"  style="width:15%"><input onchange="setlimits(event)" disabled class="axin" type="number" value="1000" id="y2"  style="width:15%"></td></tr>
 </table>
 
 <svg xmlns="http://www.w3.org/2000/svg" id="sed" style="margin:20px auto;width:800px;height:auto;" viewBox="-55 -20 1100 670" stroke="black">
