@@ -6,7 +6,7 @@ print("Please include your personalized API key. More details: \033[91m https://
 print()
 
 # Set up your API key
-API_KEY = "77RnJf024TS5cnt0TD8wJ0LofpollRVoIYjtVtBk"   
+API_KEY = "1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ"   
 ads.config.token = API_KEY
 
 nauthor = 1000
@@ -69,7 +69,7 @@ author_publications = {}
 author_name2 = "Kirchschlager, Florian"
 pub_query2 = ads.SearchQuery(q=f'first_author:"Kirchschlager, Florian" property:refereed (bibstem:"ApJ*" OR bibstem:"MNRAS" OR bibstem:"A&A*" OR bibstem:"AJ*" OR bibstem:"ApJL" OR bibstem:"SCI" OR bibstem:"NatCo" OR bibstem:"Nat" OR bibstem:"ApPhL")', fl=["year"])
 
-# Create a dictionary to store the accumulated publications
+# Create a dictionary to store the cumulative number of publications
 accumulated_publications2 = 0
 
 # Loop through the publications and accumulate them
@@ -77,9 +77,9 @@ for pub2 in pub_query2:
     if int(pub2.year) <= 2025:  # Accumulate until 2024
         accumulated_publications2 += 1
 
-# Print the accumulated number of first-author publications by Kirchschlager, Florian
+# Print the cumulative number of first-author publications by Kirchschlager, Florian
 print()
-print(f"Accumulated number of first-author publications by {author_name2} up to 2025: {accumulated_publications2}")
+print(f"Cumulative number of first-author publications by {author_name2} up to 2025: {accumulated_publications2}")
 print()
 
 #=====================================
@@ -162,11 +162,11 @@ for author, (years, accumulated_counts) in author_publications.items():
     y_offsets = np.random.uniform(-0.1, 0.1, len(years))  # Small random shift in y
     if "Kirchschlager, Florian" in author or "Kirchschlager, F" in author:
         plt.scatter(np.array(years) + x_offsets, np.array(accumulated_counts) + y_offsets,
-                    color='red', marker='x', alpha=0.9, s=60, linewidths=2.5,  zorder=10, # Higher zorder = front
+                    color='red', marker='o', alpha=0.9, s=60, linewidths=3.0,  zorder=10, # Higher zorder = front
                     label="Kirchschlager, Florian")
     else:
         plt.scatter(np.array(years) + x_offsets, np.array(accumulated_counts) + y_offsets,# Lower zorder = background
-            zorder=1, color='b', marker='x', alpha=0.7, s=40)
+            zorder=1, color='b', marker='x', alpha=0.7, s=40, linewidths=3.0)
     
     #plt.scatter(np.array(years) + x_offsets, accumulated_counts + y_offsets, color='b', marker='x', alpha=0.7, edgecolors='w', s=40)
     #plt.scatter(np.array(years) + x_offsets, accumulated_counts + y_offsets, color='b', marker='x', alpha=0.7, edgecolors='w', s=40)
@@ -180,20 +180,20 @@ plt.xticks(range(Startyear+1, Finalyear+1, 2), fontsize=14)
 
 # Set labels and title with larger font size (adjusted title size)
 plt.xlabel("Year", fontsize=18)
-plt.ylabel("Accumulated First-Author Publications", fontsize=18)
-plt.title("Accumulated First-Author Publications Over Time for Each Author (2015 PhDs)", fontsize=14)  # Reduced by 30%
+plt.ylabel("Cumulative First-Author Publications", fontsize=18)
+plt.title("Cumulative First-Author Publications Over Time for Each Author (2015 PhDs)", fontsize=14)  # Reduced by 30%
 plt.grid(True)
 
-# Step 4: Calculate and print the percentage of authors with more than 15 accumulated publications in 2024
+# Step 4: Calculate and print the percentage of authors with more than 15 cumulative publications in 2024
 authors_above_16_2025 = sum([1 for counts in author_publications.values() if counts[1][Finalyear-Startyear] > Thresh_pub])  # Check publications accumulated by 2025 (index 15)
 total_authors = len(authors)
 percentage_above_16_2025 = (authors_above_16_2025 / total_authors) * 100
 
-print(f"Percentage of authors with more than {Thresh_pub} accumulated first-author publications in {Finalyear}: {percentage_above_16_2025:.2f}%")
+print(f"Percentage of authors with more than {Thresh_pub} cumulative first-author publications in {Finalyear}: {percentage_above_16_2025:.2f}%")
 
 # Add the percentage text below the xlabel
 plt.figtext(0.1, -0.01, f"Number of authors: {len(authors)}", ha="left", fontsize=14)
-plt.figtext(0.1, -0.05, f"Percentage of authors with more than {Thresh_pub} accumulated first-author publications in {Finalyear}: {percentage_above_16_2025:.2f}%", ha="left", fontsize=14)
+plt.figtext(0.1, -0.05, f"Percentage of authors with more than {Thresh_pub} cumulative first-author publications in {Finalyear}: {percentage_above_16_2025:.2f}%", ha="left", fontsize=14)
 
 #add a legend just below this block:
 plt.legend(fontsize=14)
@@ -208,7 +208,7 @@ plt.subplots_adjust(bottom=0.1)  # Adjusting margin at the bottom to fit the tex
 
 # Save the plot as PDF with larger border widths (1cm each side)
 plt.tight_layout()  # Adjust layout to avoid clipping
-plt.savefig("accumulated_publications_2015_phds_2024_percentage.pdf", bbox_inches='tight', pad_inches=0.75)
+plt.savefig("Cumulative_publications_2015_phds_2025_percentage.pdf", bbox_inches='tight', pad_inches=0.75)
 
 # Display the plot
 plt.show()
