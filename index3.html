@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dr. Florian Kirchschlager</title>
+  <link rel="icon" href="images/kirchschlager3.jpg" type="image/jpg" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #ffffff;
+      --text: #111;
+      --accent: #004080;
+      --light: #f4f7fa;
+    }
+    [data-theme="dark"] {
+      --bg: #111;
+      --text: #f8f9fa;
+      --accent: #66ccff;
+      --light: #1a1a1a;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      transition: background 0.3s, color 0.3s;
+    }
+    header {
+      background: var(--accent);
+      color: white;
+      padding: 2rem;
+      text-align: center;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 2rem;
+    }
+
+    nav {
+      background: var(--light);
+      padding: 0.5rem;
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    nav a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    .profile {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      align-items: flex-start;
+    }
+
+    .profile img {
+      max-width: 300px;
+      width: 100%;
+      border-radius: 8px;
+    }
+
+    .profile-text {
+      flex: 1;
+    }
+
+    h2 {
+      color: var(--accent);
+      margin-top: 2rem;
+    }
+
+    .tab-group {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .tab-button {
+      padding: 0.5rem 1rem;
+      border: 2px solid var(--accent);
+      background: transparent;
+      cursor: pointer;
+      border-radius: 5px;
+      font-weight: bold;
+      color: var(--accent);
+    }
+
+    .tab-button.active {
+      background: var(--accent);
+      color: white;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+      animation: fadein 0.5s;
+    }
+
+    @keyframes fadein {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    details summary {
+      font-weight: bold;
+      cursor: pointer;
+      margin: 1rem 0;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      background: var(--light);
+      margin-top: 3rem;
+    }
+
+    .toggle-btn {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+
+<body data-theme="light">
+  <button class="toggle-btn" onclick="toggleTheme()">Toggle Theme</button>
+
+  <header>
+    <h1>Dr. Florian Kirchschlager</h1>
+    <p>Postdoctoral Researcher at <a href="https://www.ugent.be/we/physics-astronomy/en/research/astronomy" target="_blank" style="color:white;text-decoration:underline;">Ghent University</a></p>
+  </header>
+
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="research.html">Research</a>
+    <a href="publications.html">Publications</a>
+    <a href="past_events.html">Talks & Meetings</a>
+    <a href="links.html">Press & YouTube</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+
+  <div class="container">
+    <div class="profile">
+      <img src="images/kirchschlager3.jpg" alt="Florian Kirchschlager">
+      <div class="profile-text">
+        <h2>About Me</h2>
+        <p>
+          I am a computational astrophysicist studying dust in supernova remnants and in the interstellar medium. My research at Ghent University focuses on dust transport, destruction, and growth in moving gases.
+        </p>
+        <p>
+          I also investigate dust in circumstellar discs and the optical properties of non-spherical dust grains using both simulations and observations (e.g., JWST, VLT).
+        </p>
+      </div>
+    </div>
+
+    <h2>Research Focus</h2>
+    <div class="tab-group">
+      <button class="tab-button active" onclick="showTab('sn')">Supernova Dust</button>
+      <button class="tab-button" onclick="showTab('ism')">ISM Simulations</button>
+      <button class="tab-button" onclick="showTab('discs')">Protoplanetary Discs</button>
+    </div>
+
+    <div id="sn" class="tab-content active">
+      <p>Using my code <strong>Paperboats</strong>, I explore dust processing in supernova remnants—particularly dust sputtering, fragmentation, and ejection from the ejecta to the ISM.</p>
+    </div>
+
+    <div id="ism" class="tab-content">
+      <p>We simulate supernovae in turbulent, magnetized ISM environments, finding that inhomogeneities and magnetic fields reduce dust destruction.</p>
+    </div>
+
+    <div id="discs" class="tab-content">
+      <p>I study exozodiacal dust, grain shape effects, and light polarization in protoplanetary and debris discs using radiative transfer modeling and IR observations.</p>
+    </div>
+
+    <h2>Recent Publications</h2>
+    <ul>
+      <li><b>31 Jan 2024:</b> <a href="https://academic.oup.com/mnras/article/528/3/5364/7601380" target="_blank">Kirchschlager et al. (2024a)</a> – Dust survival in Cassiopeia A at different ages.</li>
+      <li><b>7 Feb 2024:</b> <a href="https://www.nature.com/articles/s41467-024-45962-0" target="_blank">Kirchschlager et al. (2024b)</a> – Dust processing in the turbulent, magnetized ISM.</li>
+    </ul>
+
+    <h2>Upcoming Events</h2>
+    <details>
+      <summary>Click to view upcoming conferences</summary>
+      <ul>
+        <li><b>Cosmic Dust 15</b> – Invited Talk, Sept 16–20, 2025, Osaka, Japan</li>
+        <li><b>ECOGAL Seminar</b> – Invited Talk, Sept 25, 2025</li>
+        <li><b>Pan Dust Conference</b> – Attendance, Nov 10–14, 2025, Tucson, Arizona</li>
+      </ul>
+    </details>
+  </div>
+
+  <footer>
+    <script>
+      const update = new Date(document.lastModified);
+      document.write(`<p><i>Last update: ${update.getDate()}.${update.getMonth() + 1}.${update.getFullYear()}</i></p>`);
+    </script>
+    <p>&copy; 2025 Florian Kirchschlager</p>
+  </footer>
+
+  <script>
+    function showTab(id) {
+      document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      event.target.classList.add('active');
+    }
+
+    function toggleTheme() {
+      const body = document.body;
+      const isDark = body.getAttribute('data-theme') === 'dark';
+      body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+    }
+  </script>
+</body>
+</html>
