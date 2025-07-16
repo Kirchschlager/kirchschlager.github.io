@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Dr. Florian Kirchschlager - Astrophysicist at Ghent University">
+  <meta name="keywords" content="astrophysics, supernova, dust, Kirchschlager, Ghent University">
+  <meta name="author" content="Florian Kirchschlager">
+
+  <title>Dr. Florian Kirchschlager</title>
+  <link rel="icon" type="image/jpg" href="images/kirchschlager3.jpg">
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather&family=Roboto&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      background-color: #f7f9fc;
+      color: #222;
+      line-height: 1.6;
+    }
+    header {
+      background-color: #003366;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    header h1, header h2 {
+      margin: 0;
+    }
+    nav ul {
+      display: flex;
+      justify-content: center;
+      list-style: none;
+      background: #00509e;
+      padding: 10px;
+      margin: 0;
+    }
+    nav ul li {
+      margin: 0 15px;
+    }
+    nav ul a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      max-width: 1100px;
+      margin: auto;
+      padding: 20px;
+    }
+    .left, .right {
+      flex: 1 1 300px;
+      margin: 10px;
+    }
+    img.profile {
+      width: 100%;
+      max-width: 500px;
+      height: auto;
+      border-radius: 8px;
+    }
+    h2 {
+      border-bottom: 2px solid #00509e;
+      padding-bottom: 5px;
+      font-family: 'Merriweather', serif;
+    }
+    .highlight {
+      background: #e9f1f7;
+      padding: 10px;
+      border-left: 4px solid #00509e;
+      margin-bottom: 15px;
+    }
+    footer {
+      background-color: #003366;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      margin-top: 40px;
+    }
+    @media (max-width: 768px) {
+      nav ul {
+        flex-direction: column;
+      }
+      .container {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Dr. Florian Kirchschlager</h1>
+    <h2>Postdoctoral Researcher, Ghent University</h2>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="research.html">Research</a></li>
+      <li><a href="publications.html">Publications</a></li>
+      <li><a href="past_events.html">Talks & Meetings</a></li>
+      <li><a href="links.html">Press & YouTube</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <main class="container">
+    <section class="left">
+      <img src="images/kirchschlager3.jpg" alt="Florian Kirchschlager" class="profile">
+      <h2>About</h2>
+      <p>I am a computational astrophysicist studying dust in supernova remnants and in the interstellar medium.
+        As a postdoc in the <a href="https://www.ugent.be/we/physics-astronomy/en/research/astronomy" target="_blank">Department of Physics & Astronomy at Ghent University</a>,
+        I investigate the transport, destruction and growth of dust in a moving gas.</p>
+
+      <p>In the past, I also worked on dust in circumstellar discs and the optical properties of non-spherical dust grains.</p>
+
+      <h2>My Research</h2>
+      <p>The focus of my research is the evolution of dust in supernova shocks. I developed the code <strong>Paperboats</strong> to study
+        dust transport and destruction by sputtering, vaporization, or fragmentation. I also examine dust growth via coagulation,
+        gas accretion or ion trapping.</p>
+
+      <p>My work involves both simulations and observations, including projects with JWST and VLT. I also study exozodiacal dust in main-sequence star systems.</p>
+    </section>
+
+    <aside class="right">
+      <section>
+        <h2>Recent Highlights</h2>
+
+        <div class="highlight">
+          <strong>31 Jan 2024</strong><br>
+          <a href="https://academic.oup.com/mnras/article/528/3/5364/7601380" target="_blank">Kirchschlager et al. (2024a)</a><br>
+          Dust destruction in supernova remnants depends on remnant age.
+        </div>
+
+        <div class="highlight">
+          <strong>7 Feb 2024</strong><br>
+          <a href="https://www.nature.com/articles/s41467-024-45962-0" target="_blank">Kirchschlager et al. (2024b)</a><br>
+          Magnetic fields and turbulence protect ISM dust from destruction.
+        </div>
+      </section>
+
+      <section>
+        <h2>Upcoming Events</h2>
+        <ul>
+          <li><b>Invited talk</b> – <a href="https://www.cps-jp.org/~dust/Welcome.html" target="_blank">Cosmic Dust 15</a>, Sept 16–20, 2025, Osaka, Japan</li>
+          <li><b>Invited talk</b> – <a href="http://www.ecogal.eu/" target="_blank">ECOGAL Seminar</a>, Sept 25, 2025</li>
+          <li><b>Attendance</b> – <a href="https://pandust2025.sciencesconf.org/" target="_blank">Pan Dust Conference</a>, Nov 10–14, 2025, Tucson, US</li>
+        </ul>
+      </section>
+    </aside>
+  </main>
+
+  <footer>
+    <script>
+      const update = new Date(document.lastModified);
+      document.write(`<i>Last update: ${update.getDate()}.${update.getMonth() + 1}.${update.getFullYear()}</i>`);
+    </script>
+    <p>&copy; 2025 Florian Kirchschlager</p>
+  </footer>
+</body>
+</html>
