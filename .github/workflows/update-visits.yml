@@ -1,0 +1,57 @@
+name: Update Cloudflare Visits
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # runs daily at midnight UTC
+  workflow_dispatch:
+
+jobs:
+  update-visits:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Fetch Cloudflare daily visits
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
+        run: |
+          echo "Fetching Cloudflare analytics..."
+          today=$(date -u +"%Y-%m-%d")
+          start=$(date -u -d "$today - 364 days" +"%Y-%m-%d")
+
+          QUERY=$(cat << 'EOF'
+{
+  "query": "query($zone: string!, $start: string!) { viewer { zones(filter: {zoneTag: $zone}) { httpRequests1dGroups(limit: 365, filter: {date_geq: $start}) { dimensions { date } sum { visits } } } } }",
+  "variables": {
+    "zone": "$ZONE_ID",
+    "start": "$start"
+  }
+}
+EOF
+          )
+
+          curl -s -X POST "https://api.cloudflare.com/client/v4/graphql" \
+            -H "Content-Type: application/json" \
+            -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+            --data "$QUERY" \
+            > cloudflare-response.json
+
+          python3 - << 'EOF'
+import json
+with open("cloudflare-response.json") as f:
+    data = json.load(f)
+groups = data["data"]["viewer"]["zones"][0]["httpRequests1dGroups"]
+visits = [{"date": g["dimensions"]["date"], "visits": g["sum"]["visits"]} for g in groups]
+with open("visits.json", "w") as out:
+    json.dump(visits, out, indent=2)
+EOF
+
+      - name: Commit visits.json
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add visits.json
+          git commit -m "Update visits"
+          git push
