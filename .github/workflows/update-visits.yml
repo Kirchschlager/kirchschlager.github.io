@@ -29,8 +29,7 @@ jobs:
             --data "$QUERY" \
             > cloudflare-response.json
 
-          # Create Python script in a YAML-safe way
-          cat << 'EOF' > process_cloudflare.py
+cat << 'EOF' > process_cloudflare.py
 import json, sys
 
 try:
