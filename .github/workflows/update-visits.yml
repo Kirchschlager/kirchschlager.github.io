@@ -2,16 +2,18 @@ name: Update Cloudflare Visits
 
 on:
   schedule:
-    - cron: '0 0 * * *'
-  workflow_dispatch:
+    - cron: '0 0 * * *'   # runs daily at midnight UTC
+  workflow_dispatch:       # allows manual run
 
 jobs:
   update-visits:
     runs-on: ubuntu-latest
 
     steps:
+      # Step 1: Checkout the repository
       - uses: actions/checkout@v3
 
+      # Step 2: Fetch Cloudflare analytics
       - name: Fetch Cloudflare daily visits
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
@@ -29,7 +31,7 @@ jobs:
             --data "$QUERY" \
             > cloudflare-response.json
 
-          # write Python script line by line to avoid heredoc
+          # Step 2a: Write Python script to process JSON
           echo "import json, sys" > process_cloudflare.py
           echo "try:" >> process_cloudflare.py
           echo "    with open('cloudflare-response.json') as f:" >> process_cloudflare.py
@@ -46,6 +48,7 @@ jobs:
 
           python3 process_cloudflare.py
 
+      # Step 3: Commit and push visits.json to repository
       - name: Commit visits.json
         run: |
           git config user.name "github-actions[bot]"
@@ -56,8 +59,7 @@ jobs:
               echo "No changes to commit"
             else
               git commit -m "Update visits"
-              git push
+              git push "https://${GITHUB_ACTOR}:${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git" HEAD:master
             fi
           else
             echo "visits.json not found"
-          fi
