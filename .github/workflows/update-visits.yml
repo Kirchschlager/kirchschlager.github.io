@@ -29,10 +29,13 @@ jobs:
             --data "$QUERY" \
             > cloudflare-response.json
 
-          echo "import json, sys
+          # Create Python script in a YAML-safe way
+          cat << 'EOF' > process_cloudflare.py
+import json, sys
+
 try:
     with open('cloudflare-response.json') as f:
-        data=json.load(f)
+        data = json.load(f)
     zones = data.get('data', {}).get('viewer', {}).get('zones', [])
     if zones:
         groups = zones[0].get('httpRequests1dGroups', [])
@@ -42,7 +45,7 @@ try:
 except Exception as e:
     print('Error processing Cloudflare response:', e)
     sys.exit(0)
-" > process_cloudflare.py
+EOF
 
           python3 process_cloudflare.py
 
