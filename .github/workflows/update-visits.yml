@@ -29,22 +29,20 @@ jobs:
             --data "$QUERY" \
             > cloudflare-response.json
 
-cat << 'EOF' > process_cloudflare.py
-import json, sys
-
-try:
-    with open('cloudflare-response.json') as f:
-        data = json.load(f)
-    zones = data.get('data', {}).get('viewer', {}).get('zones', [])
-    if zones:
-        groups = zones[0].get('httpRequests1dGroups', [])
-        visits = [{'date': g['dimensions']['date'], 'visits': g['sum']['visits']} for g in groups]
-        with open('visits.json','w') as out:
-            json.dump(visits, out, indent=2)
-except Exception as e:
-    print('Error processing Cloudflare response:', e)
-    sys.exit(0)
-EOF
+          # write Python script line by line to avoid heredoc
+          echo "import json, sys" > process_cloudflare.py
+          echo "try:" >> process_cloudflare.py
+          echo "    with open('cloudflare-response.json') as f:" >> process_cloudflare.py
+          echo "        data = json.load(f)" >> process_cloudflare.py
+          echo "    zones = data.get('data', {}).get('viewer', {}).get('zones', [])" >> process_cloudflare.py
+          echo "    if zones:" >> process_cloudflare.py
+          echo "        groups = zones[0].get('httpRequests1dGroups', [])" >> process_cloudflare.py
+          echo "        visits = [{'date': g['dimensions']['date'], 'visits': g['sum']['visits']} for g in groups]" >> process_cloudflare.py
+          echo "        with open('visits.json','w') as out:" >> process_cloudflare.py
+          echo "            json.dump(visits, out, indent=2)" >> process_cloudflare.py
+          echo "except Exception as e:" >> process_cloudflare.py
+          echo "    print('Error processing Cloudflare response:', e)" >> process_cloudflare.py
+          echo "    sys.exit(0)" >> process_cloudflare.py
 
           python3 process_cloudflare.py
 
