@@ -19,11 +19,11 @@ jobs:
         run: |
           echo "Fetching Cloudflare analytics..."
           today=$(date -u +"%Y-%m-%d")
-          start=$(date -u -d "$today - 364 days" +"%Y-%m-%d")
+          start=$(date -u --date="364 days ago" +"%Y-%m-%d")
 
-          QUERY=$(cat << 'EOF'
+          QUERY=$(cat << EOF
 {
-  "query": "query($zone: string!, $start: string!) { viewer { zones(filter: {zoneTag: $zone}) { httpRequests1dGroups(limit: 365, filter: {date_geq: $start}) { dimensions { date } sum { visits } } } } }",
+  "query": "query(\$zone: String!, \$start: String!) { viewer { zones(filter: {zoneTag: \$zone}) { httpRequests1dGroups(limit: 365, filter: {date_geq: \$start}) { dimensions { date } sum { visits } } } } }",
   "variables": {
     "zone": "$ZONE_ID",
     "start": "$start"
@@ -38,7 +38,7 @@ EOF
             --data "$QUERY" \
             > cloudflare-response.json
 
-          python3 - << 'EOF'
+          python3 - << EOF
 import json
 with open("cloudflare-response.json") as f:
     data = json.load(f)
