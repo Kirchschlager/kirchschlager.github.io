@@ -2,7 +2,7 @@ name: Update Cloudflare Visits
 
 on:
   schedule:
-    - cron: '0 0 * * *'  # runs daily at midnight UTC
+    - cron: '0 0 * * *'  # daily at midnight UTC
   workflow_dispatch:
 
 jobs:
@@ -21,16 +21,7 @@ jobs:
           today=$(date -u +"%Y-%m-%d")
           start=$(date -u --date="364 days ago" +"%Y-%m-%d")
 
-          QUERY=$(cat << EOF
-{
-  "query": "query(\$zone: String!, \$start: String!) { viewer { zones(filter: {zoneTag: \$zone}) { httpRequests1dGroups(limit: 365, filter: {date_geq: \$start}) { dimensions { date } sum { visits } } } } }",
-  "variables": {
-    "zone": "$ZONE_ID",
-    "start": "$start"
-  }
-}
-EOF
-          )
+          QUERY="{\"query\": \"query(\\$zone: String!, \\$start: String!) { viewer { zones(filter: {zoneTag: \\$zone}) { httpRequests1dGroups(limit: 365, filter: {date_geq: \\$start}) { dimensions { date } sum { visits } } } } }\", \"variables\": {\"zone\": \"$ZONE_ID\", \"start\": \"$start\"}}"
 
           curl -s -X POST "https://api.cloudflare.com/client/v4/graphql" \
             -H "Content-Type: application/json" \
@@ -53,5 +44,5 @@ EOF
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add visits.json
-          git commit -m "Update visits"
+          git commit -m "Update visits" || echo "No changes to commit"
           git push
