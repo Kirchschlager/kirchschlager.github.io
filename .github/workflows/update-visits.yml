@@ -29,25 +29,23 @@ jobs:
             --data "$QUERY" \
             > cloudflare-response.json
 
-if [ -s cloudflare-response.json ]; then
-  python3 -c "
-import json
-with open('cloudflare-response.json') as f:
-    data=json.load(f)
-zones = data.get('data', {}).get('viewer', {}).get('zones', [])
-if zones:
-    groups = zones[0].get('httpRequests1dGroups', [])
-    visits = [{'date': g['dimensions']['date'], 'visits': g['sum']['visits']} for g in groups]
-    with open('visits.json','w') as out:
-        json.dump(visits, out, indent=2)
-else:
-    print('No zones found in response')
-"
-else
-  echo "cloudflare-response.json is empty or missing"
-fi
+          echo "import json, sys
+try:
+    with open('cloudflare-response.json') as f:
+        data=json.load(f)
+    zones = data.get('data', {}).get('viewer', {}).get('zones', [])
+    if zones:
+        groups = zones[0].get('httpRequests1dGroups', [])
+        visits = [{'date': g['dimensions']['date'], 'visits': g['sum']['visits']} for g in groups]
+        with open('visits.json','w') as out:
+            json.dump(visits, out, indent=2)
+except Exception as e:
+    print('Error processing Cloudflare response:', e)
+    sys.exit(0)
+" > process_cloudflare.py
 
-          
+          python3 process_cloudflare.py
+
       - name: Commit visits.json
         run: |
           git config user.name "github-actions[bot]"
@@ -63,4 +61,3 @@ fi
           else
             echo "visits.json not found"
           fi
-
