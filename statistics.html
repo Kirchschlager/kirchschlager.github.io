@@ -11,9 +11,7 @@
       margin: 2rem auto;
       padding: 0 1rem;
     }
-    h1, h2 {
-      text-align: center;
-    }
+    h1, h2 { text-align: center; }
     .stats {
       display: flex;
       justify-content: space-around;
@@ -28,9 +26,7 @@
       margin: 0.5rem;
       flex: 1 1 150px;
     }
-    canvas {
-      max-width: 100%;
-    }
+    canvas { max-width: 100%; }
   </style>
 </head>
 <body>
@@ -63,94 +59,37 @@
 <canvas id="visitsChart" height="100"></canvas>
 
 <script>
-/**
- * Cloudflare Web Analytics statistics viewer
- * - Replace TOKEN with your Cloudflare token
- * - Replace ZONE_ID with your Cloudflare zone id (not strictly needed for public data)
- */
+async function loadStats() {
+  const res = await fetch('/visits.json');
+  const visits = await res.json();
 
-const CF_API_TOKEN = '53977ce72e0240fa9b86e484e0edf632'; // your token
-const ZONE_ID = ''; // optional, leave empty if public beacon data works
+  const today = visits[visits.length - 1].visits;
+  const last7 = visits.slice(-7).reduce((a,b) => a + b.visits, 0);
+  const last30 = visits.slice(-30).reduce((a,b) => a + b.visits, 0);
+  const last365 = visits.reduce((a,b) => a + b.visits, 0);
+  const total = last365;
 
-async function fetchStats() {
-  // Cloudflare does not provide a public JSON API for free Web Analytics.
-  // Instead, we can simulate a daily counter using a static JSON file OR CountAPI.
-  // For this example, we will use a simple **CountAPI approach**.
-  // Alternatively, if you have server access, you can fetch data via Cloudflare GraphQL API.
+  document.getElementById('visits-today').innerText = today;
+  document.getElementById('visits-week').innerText = last7;
+  document.getElementById('visits-month').innerText = last30;
+  document.getElementById('visits-year').innerText = last365;
+  document.getElementById('visits-total').innerText = total;
 
-  // For demonstration, we will simulate daily counts:
-  const today = new Date();
-  const visits = [];
-  let total = 0;
-  for (let i = 364; i >= 0; i--) {
-    const d = new Date(today);
-    d.setDate(d.getDate() - i);
-    const dateStr = d.toISOString().split('T')[0];
-    const dailyVisits = Math.floor(Math.random() * 100); // Replace with real data
-    visits.push({ date: dateStr, count: dailyVisits });
-    total += dailyVisits;
-  }
-  return visits;
-}
-
-function computeAggregates(visits) {
-  const today = visits[visits.length - 1].count;
-  const last7 = visits.slice(-7).reduce((a,b)=>a+b.count,0);
-  const last30 = visits.slice(-30).reduce((a,b)=>a+b.count,0);
-  const last365 = visits.reduce((a,b)=>a+b.count,0);
-  const total = visits.reduce((a,b)=>a+b.count,0);
-  return { today, last7, last30, last365, total };
-}
-
-function updateStatsDisplay(aggregates) {
-  document.getElementById('visits-today').innerText = aggregates.today;
-  document.getElementById('visits-week').innerText = aggregates.last7;
-  document.getElementById('visits-month').innerText = aggregates.last30;
-  document.getElementById('visits-year').innerText = aggregates.last365;
-  document.getElementById('visits-total').innerText = aggregates.total;
-}
-
-function drawChart(visits) {
-  const ctx = document.getElementById('visitsChart').getContext('2d');
   const labels = visits.map(v => v.date);
-  const data = visits.map(v => v.count);
+  const data = visits.map(v => v.visits);
 
-  new Chart(ctx, {
+  new Chart(document.getElementById('visitsChart'), {
     type: 'line',
-    data: {
-      labels,
-      datasets: [{
-        label: 'Daily Visits',
-        data,
-        borderColor: 'blue',
-        backgroundColor: 'rgba(0,0,255,0.1)',
-        fill: true,
-        tension: 0.2
-      }]
-    },
+    data: { labels, datasets: [{ label: "Daily Visits", data, borderColor:'blue', backgroundColor:'rgba(0,0,255,0.1)', fill:true, tension:0.2 }] },
     options: {
       responsive: true,
-      plugins: {
-        legend: { display: true },
-        tooltip: { mode: 'index', intersect: false }
-      },
-      scales: {
-        x: { display: true, title: { display: true, text: 'Date' } },
-        y: { display: true, title: { display: true, text: 'Visits' }, beginAtZero: true }
-      }
+      plugins: { legend: { display: true }, tooltip: { mode: 'index', intersect:false } },
+      scales: { x:{ display:true, title:{ display:true, text:'Date' } }, y:{ display:true, title:{ display:true, text:'Visits' }, beginAtZero:true } }
     }
   });
 }
 
-async function main() {
-  const visits = await fetchStats();
-  const aggregates = computeAggregates(visits);
-  updateStatsDisplay(aggregates);
-  drawChart(visits);
-}
-
-main();
-
+loadStats();
 </script>
 
 </body>
