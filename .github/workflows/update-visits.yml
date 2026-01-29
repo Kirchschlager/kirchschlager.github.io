@@ -2,7 +2,7 @@ name: Update Cloudflare Visits
 
 on:
   schedule:
-    - cron: '0 0 * * *'  # daily at midnight UTC
+    - cron: '0 0 * * *'
   workflow_dispatch:
 
 jobs:
@@ -29,15 +29,7 @@ jobs:
             --data "$QUERY" \
             > cloudflare-response.json
 
-          python3 - << EOF
-import json
-with open("cloudflare-response.json") as f:
-    data = json.load(f)
-groups = data["data"]["viewer"]["zones"][0]["httpRequests1dGroups"]
-visits = [{"date": g["dimensions"]["date"], "visits": g["sum"]["visits"]} for g in groups]
-with open("visits.json", "w") as out:
-    json.dump(visits, out, indent=2)
-EOF
+          python3 -c "import json; f=open('cloudflare-response.json'); data=json.load(f); f.close(); visits=[{'date':g['dimensions']['date'],'visits':g['sum']['visits']} for g in data['data']['viewer']['zones'][0]['httpRequests1dGroups']]; json.dump(visits, open('visits.json','w'), indent=2)"
 
       - name: Commit visits.json
         run: |
