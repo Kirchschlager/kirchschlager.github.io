@@ -1,96 +1,104 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Website Statistics</title>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       max-width: 900px;
       margin: 2rem auto;
       padding: 0 1rem;
+      line-height: 1.6;
+      color: #222;
     }
-    h1, h2 { text-align: center; }
-    .stats {
-      display: flex;
-      justify-content: space-around;
-      flex-wrap: wrap;
-      margin-bottom: 2rem;
+    h1, h2 {
+      font-weight: 600;
     }
-    .stat-box {
-      background: #f0f0f0;
-      padding: 1rem 2rem;
-      border-radius: 10px;
-      text-align: center;
-      margin: 0.5rem;
-      flex: 1 1 150px;
+    .box {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 1.25rem;
+      margin: 1.5rem 0;
+      background: #fafafa;
     }
-    canvas { max-width: 100%; }
+    .note {
+      color: #555;
+      font-size: 0.95rem;
+    }
+    a {
+      color: #0057d8;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    footer {
+      margin-top: 3rem;
+      font-size: 0.9rem;
+      color: #666;
+    }
   </style>
 </head>
 <body>
 
-<h1>Website Statistics</h1>
+  <h1>Website Statistics</h1>
 
-<div class="stats">
-  <div class="stat-box">
-    <h2 id="visits-today">0</h2>
-    <p>Visits Today</p>
+  <p>
+    This page provides an overview of traffic statistics for
+    <strong>kirchschlager.github.io</strong>.
+  </p>
+
+  <div class="box">
+    <h2>How visits are measured</h2>
+    <p>
+      Traffic is measured using <strong>Cloudflare Web Analytics</strong>, a
+      privacy-friendly analytics system that does not use cookies and does not
+      track individual users.
+    </p>
+    <p class="note">
+      Because this website is hosted on GitHub Pages (<code>github.io</code>),
+      Cloudflare does not expose raw visit numbers through a public API.
+      As a result, exact counters (e.g. “visits today”) cannot be displayed
+      directly on this page.
+    </p>
   </div>
-  <div class="stat-box">
-    <h2 id="visits-week">0</h2>
-    <p>Last 7 Days</p>
+
+  <div class="box">
+    <h2>View detailed analytics</h2>
+    <p>
+      The full, live analytics dashboard—including daily visits, trends over
+      time, and geographic distribution—is available via Cloudflare:
+    </p>
+    <p>
+      👉
+      <a href="https://dash.cloudflare.com" target="_blank" rel="noopener">
+        Open Cloudflare Analytics Dashboard
+      </a>
+    </p>
+    <p class="note">
+      (You need to be logged into your Cloudflare account to see the data.)
+    </p>
   </div>
-  <div class="stat-box">
-    <h2 id="visits-month">0</h2>
-    <p>Last 30 Days</p>
+
+  <div class="box">
+    <h2>What you can expect to see there</h2>
+    <ul>
+      <li>Total page views</li>
+      <li>Visits per day</li>
+      <li>Traffic over the last 7 / 30 / 365 days</li>
+      <li>Referrers and countries</li>
+    </ul>
   </div>
-  <div class="stat-box">
-    <h2 id="visits-year">0</h2>
-    <p>Last 365 Days</p>
-  </div>
-  <div class="stat-box">
-    <h2 id="visits-total">0</h2>
-    <p>Total Visits</p>
-  </div>
-</div>
 
-<canvas id="visitsChart" height="100"></canvas>
-
-<script>
-async function loadStats() {
-  const res = await fetch('/visits.json');
-  const visits = await res.json();
-
-  const today = visits[visits.length - 1].visits;
-  const last7 = visits.slice(-7).reduce((a,b) => a + b.visits, 0);
-  const last30 = visits.slice(-30).reduce((a,b) => a + b.visits, 0);
-  const last365 = visits.reduce((a,b) => a + b.visits, 0);
-  const total = last365;
-
-  document.getElementById('visits-today').innerText = today;
-  document.getElementById('visits-week').innerText = last7;
-  document.getElementById('visits-month').innerText = last30;
-  document.getElementById('visits-year').innerText = last365;
-  document.getElementById('visits-total').innerText = total;
-
-  const labels = visits.map(v => v.date);
-  const data = visits.map(v => v.visits);
-
-  new Chart(document.getElementById('visitsChart'), {
-    type: 'line',
-    data: { labels, datasets: [{ label: "Daily Visits", data, borderColor:'blue', backgroundColor:'rgba(0,0,255,0.1)', fill:true, tension:0.2 }] },
-    options: {
-      responsive: true,
-      plugins: { legend: { display: true }, tooltip: { mode: 'index', intersect:false } },
-      scales: { x:{ display:true, title:{ display:true, text:'Date' } }, y:{ display:true, title:{ display:true, text:'Visits' }, beginAtZero:true } }
-    }
-  });
-}
-
-loadStats();
-</script>
+  <footer>
+    <p>
+      Statistics powered by Cloudflare Web Analytics.<br />
+      This page intentionally contains no trackers, cookies, or scripts.
+    </p>
+  </footer>
 
 </body>
 </html>
